@@ -10,5 +10,7 @@ def main():
     sys.stdout.write(completed_process.stdout.decode("utf-8"))
     sys.stderr.write(completed_process.stderr.decode("utf-8"))
 
+    sys.exit(completed_process.returncode)
+
 if __name__ == "__main__":
     main()
