@@ -9,7 +9,7 @@ def main():
     command = sys.argv[3]
     args = sys.argv[4:]
     
-    with tempfile.TemporaryDirectory as temp_dir:
+    with tempfile.TemporaryDirectory() as temp_dir:
         os.makedirs(os.path.join(temp_dir, os.path.dirname(command).strip("/")))
         shutil.copy(command, os.path.join(temp_dir, command.strip("/")))
         os.chroot(temp_dir)
