@@ -14,6 +14,9 @@ def main():
         shutil.copy(command, os.path.join(temp_dir, command.strip("/")))
         os.chroot(temp_dir)
 
+        pid = os.getpid()
+        os.unshare(os.CLONE_NEWPID)
+
         completed_process = subprocess.run([command, *args], capture_output=True)
     
         sys.stdout.write(completed_process.stdout.decode("utf-8"))
