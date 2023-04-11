@@ -5,16 +5,19 @@ import tempfile
 import shutil
 import ctypes
 
+CLONE_NEWPID = 0x20000000
+
+def unshare():
+        libc = ctypes.CDLL(None)
+        libc.unshare.argtypes = [ctypes.c_int]
+        libc.unshare(CLONE_NEWPID)
+
 def main():
     command = sys.argv[3]
     args = sys.argv[4:]
     
     with tempfile.TemporaryDirectory() as temp_dir:
-        CLONE_NEWPID = 0x20000000
-        libc = ctypes.CDLL(None)
-        libc.unshare.argtypes = [ctypes.c_int]
-        libc.unshare(CLONE_NEWPID)
-
+        unshare()
         os.makedirs(os.path.join(temp_dir, os.path.dirname(command).strip("/")))
         shutil.copy(command, os.path.join(temp_dir, command.strip("/")))
         os.chroot(temp_dir)
